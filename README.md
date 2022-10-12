@@ -2,7 +2,7 @@
 个人Django学习
 
 # 学习顺序
-1. [官方文档](https://docs.djangoproject.com/en/3.2/)，项目位置
+1. [Django3.2官方文档](https://docs.djangoproject.com/en/3.2/)，[项目位置](https://github.com/yuminghe/django-study/mysite)
 
 # Requirement
 Python 3.8 \
