@@ -17,6 +17,7 @@ class IndexView(generic.ListView):
 
 
 class DetailView(generic.DetailView):
+    # detail.html的question变量会自动提供
     model = Question
     template_name = 'polls/detail.html'
 
