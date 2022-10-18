@@ -3,6 +3,7 @@
 
 # 学习顺序
 1. [Django3.2官方文档](https://docs.djangoproject.com/en/3.2/contents/)，[项目位置](https://github.com/yuminghe/django-study/tree/main/mysite)
+2. [HelloDjango博客教程](https://www.zmrenwu.com/courses/hellodjango-blog-tutorial/)
 
 # Requirement
 Python 3.8 \
