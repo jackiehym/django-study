@@ -4,7 +4,7 @@ import markdown
 from markdown.extensions.toc import TocExtension
 from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Post, Category, Tag
 
 
@@ -28,7 +28,15 @@ def detail(request, pk):
 
     m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
     post.toc = m.group(1) if m is not None else ''
-    return render(request, 'blog/detail.html', context={'post': post})
+    return render(request, '', context={'post': post})
+class PostDetailView(DetailView):
+    model = Post
+    context_object_name = 'post'
+    template_name = 'blog/detail.html'
+
+    def get(self, request, *args, **kwargs):
+        pass
+
 
 
 class ArchiveView(ListView):
