@@ -13,30 +13,29 @@ class IndexView(ListView):
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
 
-def detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
 
-    # 阅读量+1
-    post.increase_views()
-
-    md = markdown.Markdown(extensions=[
-        'markdown.extensions.extra',
-        'markdown.extensions.codehilite',
-        TocExtension(slugify=slugify)
-    ])
-    post.body = md.convert(post.body)
-
-    m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
-    post.toc = m.group(1) if m is not None else ''
-    return render(request, '', context={'post': post})
 class PostDetailView(DetailView):
     model = Post
     context_object_name = 'post'
     template_name = 'blog/detail.html'
 
     def get(self, request, *args, **kwargs):
-        pass
+        response = super(PostDetailView, self).get(request, *args, **kwargs)
+        self.object.increase_views()
+        return response
 
+    def get_object(self, queryset=None):
+        post = super(PostDetailView, self).get_object(queryset=None)
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            TocExtension(slugify=slugify)
+        ])
+        post.body = md.convert(post.body)
+
+        m = re.search(r'<div class="toc">\s*<ul>(.*)</ul>\s*</div>', md.toc, re.S)
+        post.toc = m.group(1) if m is not None else ''
+        return post
 
 
 class ArchiveView(ListView):
