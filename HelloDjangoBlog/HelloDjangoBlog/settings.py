@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 'blog',
     'blog.apps.BlogConfig',
     'comments.apps.CommentsConfig',
+    'pure_pagination',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PAGINATION_SETTINGS = {
+    "PAGE_RANGE_DISPLAYED": 4,
+    "MARGIN_PAGES_DISPLAYED": 2,
+    "SHOW_FIRST_PAGE_WHEN_INVALID": True
+}
