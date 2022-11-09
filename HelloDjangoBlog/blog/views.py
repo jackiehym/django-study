@@ -2,9 +2,11 @@ import re
 
 import markdown
 from markdown.extensions.toc import TocExtension
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.text import slugify
+from django.contrib import messages
 from django.views.generic import ListView, DetailView
+from django.db.models import Q
 from pure_pagination.mixins import PaginationMixin
 from .models import Post, Category, Tag
 
@@ -73,3 +75,12 @@ class TagyView(ListView):
         """父类的 get_queryset 方法。该方法默认获取指定模型的全部列表数据"""
         t = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
         return super(TagyView, self).get_queryset().filter(tag=t).order_by('-create_time')
+
+def search(request):
+    q = request.GET.get('q')
+    if not q:
+        error_msg = "请输入搜索关键词"
+        messages.add_message(request, messages.ERROR, error_msg, extra_tags='danger')
+        return redirect('blog:index')
+    post_list = Post.objects.filter(Q(title__icontains=q) | Q(body__icontains=q))
+    return render(request, 'blog/index.html', {'post_list': post_list})
